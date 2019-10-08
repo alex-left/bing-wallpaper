@@ -1,10 +1,9 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 """
 Python script to set bing image of the day as desktop wallpaper
 OS: Ubuntu 16.04
-Author: Anurag Rana
-More Info: https://www.pythoncircle.com
+Forked from: Anurag Rana
 """
 
 import datetime
@@ -38,7 +37,12 @@ with open(image_path, 'wb') as handler:
     handler.write(img_data)
 
 try:
-    subprocess.check_call([str(which("gsettings")), "set",
-                           "org.gnome.desktop.background", "picture-uri", "file://" + image_path])
+    os.environ["DISPLAY"] = ":1"
+    a = subprocess.check_call([str(which("gsettings")),
+                               "set",
+                               "org.gnome.desktop.background",
+                               "picture-uri",
+                               "file://" + image_path])
+    print(a)
 except subprocess.CalledProcessError as e:
     print(e)
