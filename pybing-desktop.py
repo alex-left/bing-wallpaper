@@ -8,17 +8,15 @@ Forked from: Anurag Rana
 
 import datetime
 import json
-import os
 import subprocess
-from shutil import which
 
 import requests
 
 IMAGE_PATH = "/home/alex/Imágenes/Wallpapers/bing/"
 
 # get image url
-response = requests.get(
-    "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US")
+base_url = "https://www.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=en-US"
+response = requests.get(base_url)
 image_data = json.loads(response.text)
 
 image_url = image_data["images"][0]["url"]
@@ -37,8 +35,7 @@ with open(image_path, 'wb') as handler:
     handler.write(img_data)
 
 try:
-    os.environ["DISPLAY"] = ":1"
-    a = subprocess.check_call([str(which("gsettings")),
+    a = subprocess.check_call(["/usr/bin/gsettings",
                                "set",
                                "org.gnome.desktop.background",
                                "picture-uri",
